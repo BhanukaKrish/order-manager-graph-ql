@@ -1,0 +1,32 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Order {
+  _id: String!
+  id: String!
+  invoiceID: String!
+  feedback: String
+}
+
+type Query {
+  getAllOrders: [Order!]!
+  order(id: String!): Order!
+}
+
+type Mutation {
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(id: String!): Order!
+}
+
+input CreateOrderInput {
+  id: String!
+  invoiceID: String!
+  feedback: String!
+}
+
+input UpdateOrderInput {
+  id: String!
+  feedback: String!
+}
