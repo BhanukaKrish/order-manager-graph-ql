@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { Order } from './order/entities/order.entity';
+import { Order } from './order/order.entity';
 import { OrderModule } from './order/order.module';
 
 @Module({
@@ -14,8 +13,8 @@ import { OrderModule } from './order/order.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb+srv://root:Aiva@123@cluster0.sa2bq.mongodb.net/order_db?retryWrites=true&w=majority',
-      synchronize: true,
+      url: 'mongodb+srv://nusky:Amb1UKMlUCoTCG8n@cluster0.cn9ki.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+      synchronize: false,
       useUnifiedTopology: true,
       entities: [Order],
     }),

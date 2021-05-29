@@ -2,31 +2,38 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type OrderFeedback {
+  review: String
+}
+
 type Order {
-  _id: String!
   id: String!
   invoiceID: String!
-  feedback: String
+  feedback: OrderFeedback
+}
+
+input OrderFeedbackInput {
+  review: String
+}
+
+input OrderInput {
+  id: String!
+  invoiceID: String!
+  feedback: OrderFeedbackInput
 }
 
 type Query {
-  getAllOrders: [Order!]!
+  orders: [Order!]!
   order(id: String!): Order!
 }
 
 type Mutation {
-  createOrder(createOrderInput: CreateOrderInput!): Order!
-  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
-  removeOrder(id: String!): Order!
-}
-
-input CreateOrderInput {
-  id: String!
-  invoiceID: String!
-  feedback: String!
+  createOrder(invoiceID: String!, feedback: OrderFeedbackInput): Order!
+  updateOrder(data: UpdateOrderInput!, where: String!): Order!
+  deleteOrder: Boolean!
 }
 
 input UpdateOrderInput {
-  id: String!
-  feedback: String!
+  invoiceID: String!
+  feedback: OrderFeedbackInput
 }

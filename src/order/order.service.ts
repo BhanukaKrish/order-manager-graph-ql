@@ -1,19 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateOrderInput } from './dto/create-order.input';
-import { UpdateOrderInput } from './dto/update-order.input';
-import { Order } from './entities/order.entity';
+import {
+  CreateOrderInputArgs,
+  DeleteOrderInputArgs,
+  UpdateOrderInputArgs,
+} from './dto';
+import { Order } from './order.entity';
 
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectRepository(Order) private orderRepository: Repository<Order>
+    @InjectRepository(Order) private orderRepository: Repository<Order>,
   ) {}
 
-  create(order: CreateOrderInput): Promise<Order> {
-    let proj = this.orderRepository.create(order);
-    return this.orderRepository.save(proj); 
+  async create(createOrderInputArgs: CreateOrderInputArgs): Promise<Order> {
+    return await this.orderRepository.create(createOrderInputArgs).save();
   }
 
   async findAll(): Promise<Order[]> {
@@ -24,20 +26,13 @@ export class OrderService {
     return this.orderRepository.findOne(id);
   }
 
-  update(id: string, updateOrderInput: UpdateOrderInput) {
-    let order: Order = this.orderRepository.create(updateOrderInput);
-    order.id = id;
-    return this.orderRepository.save(order);
+  async update({ data, where }: UpdateOrderInputArgs): Promise<Order> {
+    await this.orderRepository.update(where, data);
+    return this.findOne(where);
   }
 
-  async remove(id: string) {
-    let proj = this.findOne(id)
-    if (proj) {
-      let ret = await this.orderRepository.delete(id)
-      if (ret.affected === 1) {
-        return proj;
-      }
-    }
-    throw new NotFoundException(`Record cannot find by id ${id}`)
+  async remove({ id }: DeleteOrderInputArgs): Promise<Boolean> {
+    await this.orderRepository.delete(id);
+    return true;
   }
 }
