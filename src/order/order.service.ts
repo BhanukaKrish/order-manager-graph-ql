@@ -1,5 +1,6 @@
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
   CreateOrderInputArgs,
@@ -11,7 +12,7 @@ import { Order } from './order.entity';
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectRepository(Order) private orderRepository: Repository<Order>,
+    @InjectRepository(Order) private orderRepository: EntityRepository<Order>,
   ) {}
 
   async create(createOrderInputArgs: CreateOrderInputArgs): Promise<Order> {
