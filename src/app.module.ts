@@ -4,7 +4,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { Order } from './order/order.entity';
 import { OrderModule } from './order/order.module';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
 
 @Module({
   imports: [
@@ -17,7 +16,6 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
       dbName: 'order_db',
       clientUrl:
         'mongodb+srv://root:Aiva@123@cluster0.sa2bq.mongodb.net/order_db?retryWrites=true&w=majority',
-      entities: [Order],
       autoLoadEntities: true,
     }),
   ],

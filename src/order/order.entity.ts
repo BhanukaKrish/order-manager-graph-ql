@@ -9,6 +9,7 @@ import {
   Property,
   PrimaryKey,
   BaseEntity,
+  SerializedPrimaryKey,
 } from '@mikro-orm/core';
  
 

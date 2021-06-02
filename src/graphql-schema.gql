@@ -17,7 +17,7 @@ input OrderFeedbackInput {
 }
 
 input OrderInput {
-  id: String!
+  id: String = null
   invoiceID: String!
   feedback: OrderFeedbackInput
 }
