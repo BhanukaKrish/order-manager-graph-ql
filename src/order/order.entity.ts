@@ -1,5 +1,11 @@
-import { Field, ObjectType, InputType } from '@nestjs/graphql';
-import { Entity, Column, BaseEntity, ObjectIdColumn, ObjectID } from 'typeorm';
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  SerializedPrimaryKey,
+} from '@mikro-orm/core';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { ObjectId } from 'mongodb';
 
 @ObjectType()
 @InputType('OrderFeedbackInput')
@@ -11,16 +17,20 @@ export class OrderFeedback {
 @ObjectType()
 @InputType('OrderInput')
 @Entity()
-export class Order extends BaseEntity {
+export class Order {
+  @PrimaryKey()
+  _id: ObjectId;
+
   @Field(() => String)
-  @ObjectIdColumn()
-  id: ObjectID;
+  @SerializedPrimaryKey()
+  @PrimaryKey()
+  id: string;
 
   @Field()
-  @Column()
+  @Property()
   invoiceID: string;
 
   @Field(() => OrderFeedback, { nullable: true })
-  @Column({ nullable: true })
+  @Property({ nullable: true })
   feedback?: OrderFeedback;
 }

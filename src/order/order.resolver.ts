@@ -13,7 +13,7 @@ export class OrderResolver {
 
   @Mutation(() => Order)
   createOrder(@Args() createOrderInputArgs: CreateOrderInputArgs) {
-    return this.orderService.create(createOrderInputArgs);
+    this.orderService.create(createOrderInputArgs);
   }
 
   @Query(() => [Order], { name: 'orders' })

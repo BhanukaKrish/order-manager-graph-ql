@@ -1,6 +1,6 @@
+import { EntityRepository, wrap } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import {
   CreateOrderInputArgs,
   DeleteOrderInputArgs,
@@ -11,15 +11,19 @@ import { Order } from './order.entity';
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectRepository(Order) private orderRepository: Repository<Order>,
+    @InjectRepository(Order) private orderRepository: EntityRepository<Order>,
   ) {}
 
   async create(createOrderInputArgs: CreateOrderInputArgs): Promise<Order> {
-    return await this.orderRepository.create(createOrderInputArgs).save();
+    const order = new Order();
+    wrap(order).assign(createOrderInputArgs);
+    this.orderRepository.persist(order);
+    await this.orderRepository.flush();
+    return order;
   }
 
   async findAll(): Promise<Order[]> {
-    return this.orderRepository.find();
+    return this.orderRepository.findAll();
   }
 
   async findOne(id: string): Promise<Order> {
@@ -27,12 +31,16 @@ export class OrderService {
   }
 
   async update({ data, where }: UpdateOrderInputArgs): Promise<Order> {
-    await this.orderRepository.update(where, data);
-    return this.findOne(where);
+    const order = await this.findOne(where);
+    wrap(order).assign(data);
+    this.orderRepository.persist(order);
+    await this.orderRepository.flush;
+    return order;
   }
 
   async remove({ id }: DeleteOrderInputArgs): Promise<Boolean> {
-    await this.orderRepository.delete(id);
+    const order = this.findOne(id);
+    this.orderRepository.remove(order);
     return true;
   }
 }

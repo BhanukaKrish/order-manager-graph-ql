@@ -1,11 +1,11 @@
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { OrderService } from './order.service';
-import { OrderResolver } from './order.resolver';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Order } from './order.entity';
+import { OrderResolver } from './order.resolver';
+import { OrderService } from './order.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order])],
+  imports: [MikroOrmModule.forFeature([Order])],
   providers: [OrderResolver, OrderService],
 })
 export class OrderModule {}
