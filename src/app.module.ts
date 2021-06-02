@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { Order } from './order/order.entity';
 import { OrderModule } from './order/order.module';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 
 @Module({
   imports: [
@@ -24,5 +25,3 @@ import { OrderModule } from './order/order.module';
   providers: [],
 })
 export class AppModule {}
-
-// mongodb+srv://nusky:Amb1UKMlUCoTCG8n@cluster0.cn9ki.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
